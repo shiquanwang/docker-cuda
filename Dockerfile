@@ -17,6 +17,7 @@ RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true 
     apt-get update &&\
     apt-get -y install oracle-java8-installer && \
     apt-get -y install oracle-java8-set-default && \
+    source /etc/profile.d/jdk.sh && \
     rm -rf /var/cache/oracle-jdk8-installer
 
 # Install CUDA package
