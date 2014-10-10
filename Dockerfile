@@ -18,3 +18,15 @@ RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true 
     apt-get -y install oracle-java8-installer && \
     apt-get -y install oracle-java8-set-default && \
     rm -rf /var/cache/oracle-jdk8-installer
+
+# Install CUDA package
+ADD cuda-repo-ubuntu1404_6.5-14_amd64.deb /tmp/cuda-repo-ubuntu1404_6.5-14_amd64.deb
+RUN dpkg -i /tmp/cuda-repo-ubuntu1404_6.5-14_amd64.deb && \
+    apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get -y install cuda && \
+    rm /tmp/cuda-repo-ubuntu1404_6.5-14_amd64.deb
+
+# Post installation
+RUN echo 'export PATH=/usr/local/cuda-6.5/bin:$PATH' >> /root/.bashrc && \
+    echo '/usr/local/cuda-6.5/lib64' > /etc/ld.so.conf.d/cuda-6.5.conf && \
+    ldconfig
