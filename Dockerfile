@@ -9,7 +9,9 @@ MAINTAINER Shiquan Wang <shiquanwang@gmail.com>
 RUN apt-get update && \
     apt-get -y upgrade && \
     apt-get -y install build-essential && \
-    apt-get -y install software-properties-common
+    apt-get -y install software-properties-common && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Install JAVA8
 RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections && \
@@ -17,15 +19,18 @@ RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true 
     apt-get update &&\
     apt-get -y install oracle-java8-installer && \
     apt-get -y install oracle-java8-set-default && \
-    source /etc/profile.d/jdk.sh && \
-    rm -rf /var/cache/oracle-jdk8-installer
+    rm -rf /var/cache/oracle-jdk8-installer && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Install CUDA package
 ADD cuda-repo-ubuntu1404_6.5-14_amd64.deb /tmp/cuda-repo-ubuntu1404_6.5-14_amd64.deb
 RUN dpkg -i /tmp/cuda-repo-ubuntu1404_6.5-14_amd64.deb && \
     apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get -y install cuda && \
-    rm /tmp/cuda-repo-ubuntu1404_6.5-14_amd64.deb
+    rm /tmp/cuda-repo-ubuntu1404_6.5-14_amd64.deb && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Post installation
 RUN echo 'export PATH=/usr/local/cuda-6.5/bin:$PATH' >> /root/.bashrc && \
